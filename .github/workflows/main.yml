@@ -5,7 +5,7 @@ permissions:
   pull-requests: write
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, reopened, synchronize]
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # Ensure full repository is checked out, which may be needed for some actions
+          fetch-depth: 0
 
       - name: Run Code Reviewer
         uses: codeworks/cw-ai-code-reviewer@main
