@@ -10,10 +10,15 @@ on:
 
 jobs:
   test:
-    # if: ${{ contains(github.event.*.labels.*.name, 'gpt review') }} # Optional; to run only when a label is attached
     runs-on: ubuntu-latest
     steps:
-      - uses: codeworks/cw-ai-code-reviewer@main
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Ensure full repository is checked out, which may be needed for some actions
+
+      - name: Run Code Reviewer
+        uses: codeworks/cw-ai-code-reviewer@main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
