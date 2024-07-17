@@ -17,6 +17,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Checkout private action repository
+        uses: actions/checkout@v2
+        with:
+          repository: codeworks/cw-ai-code-reviewer
+          token: ${{ secrets.GH_API_TOKEN }}
+
       - name: Run Code Reviewer
         uses: codeworks/cw-ai-code-reviewer@main
         env:
