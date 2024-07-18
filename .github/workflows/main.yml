@@ -7,13 +7,15 @@ permissions:
 on:
   pull_request_target:
     types: [opened, reopened, synchronize]
+  
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Run Code Reviewer
-        uses: codeworks/cw-ai-code-reviewer@main
+      - uses: codeworks/cw-ai-code-reviewer@main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
