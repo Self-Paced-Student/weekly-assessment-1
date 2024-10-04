@@ -82,4 +82,32 @@ _.memoize = func => {const cache = {};
 // with the value "collections" as "libraryDesc", and an instance of UnderFunctions
 // to "_.underFunctions" with the value "functions" as "libraryDesc".
 
+function UnderCollections (libraryDesc) {
+    this.libraryDesc = libraryDesc;
+  }
+  
+  UnderCollections.prototype.each = _.each;
+  UnderCollections.prototype.reduce = _.reduce;
+  // REMOVE-END
+  
+  // Then, create a sub-class of "UnderCollections" named
+  // "UnderFunctions" that includes the function methods
+  // you implemented here above (i.e. bind and memoize).
+  // REMOVE-START
+  function UnderFunctions (libraryDesc) {
+    UnderCollections.call(this, libraryDesc);
+  }
+  
+  UnderFunctions.prototype = Object.create(UnderCollections.prototype);
+  UnderFunctions.prototype.constructor = UnderFunctions;
+  UnderFunctions.prototype.bind = _.bind;
+  UnderFunctions.prototype.memoize = _.memoize;
+  // REMOVE-END
+  // Finally, assign an instance of UnderCollections to "_.underCollections",
+  // with the value "collections" as "libraryDesc", and an instance of UnderFunctions
+  // to "_.underFunctions" with the value "functions" as "libraryDesc".
+  // REMOVE-START
+  _.underCollections = new UnderCollections('collections');
+  _.underFunctions = new UnderFunctions('functions');
+
 module.exports = _;
