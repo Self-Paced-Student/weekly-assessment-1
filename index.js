@@ -17,7 +17,16 @@ const _ = {};
 // (element, index|key, collection), and bound to the context if one is passed.
 // Returns the collection for chaining.
 _.each = (collection, iteratee, context) => {
-
+    if (Array.isArray(collection)) {
+        for (let i = 0; i < collection.length; i++) {
+            iteratee.call(context, collection[i], i, collection);
+        }
+    } else {
+        for (var key in collection) {
+            collection.hasOwnProperty(key) && iteratee.call(context, collection[key], key, collection);
+        }
+    }
+    return collection;
 };
 
 // _.reduce(collection, iteratee, [accumulator], [context])
@@ -29,14 +38,21 @@ _.each = (collection, iteratee, context) => {
 // to the initial invocation of reduce, iteratee is not invoked on the first element,
 // and the first element is instead passed as accumulator for the next invocation.
 _.reduce = (collection, iteratee, accumulator, context) => {
-
+    _.each(collection, (el, key) => {
+        if (accumulator !== undefined) accumulator = iteratee.call(context, accumulator, el, key, collection);
+        else accumulator = el;
+      });
+      return accumulator;
 };
 
 // _.bind(function, object)
 // Binds a function to an object (obviously without using `bind`), meaning that whenever
 // the function is called, the value of "this" will be the object. Returns the bound function.
 _.bind = function (func, obj) {
-
+    const boundArgs = Array.prototype.slice.call(arguments, 2); // (your could use the rest args operator in the outer function too)
+    return function () {
+      return func.apply(obj, [...boundArgs, ...arguments]);
+    };
 };
 
 // _.memoize(func)
