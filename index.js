@@ -62,8 +62,11 @@ _.bind = function (func, obj) {
 // and that it is a primitive. Memoize should return a function that when called,
 // will check if it has already computed the result for the given argument
 // and return that value instead of recomputing it.
-_.memoize = func => {
-
+_.memoize = func => {const cache = {};
+    return arg => {
+    cache.hasOwnProperty(arg) || (cache[arg] = func(arg));
+    return cache[arg];
+    };
 };
 
 // Now, using the pesudo-classical approach, create a class named
